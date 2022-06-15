@@ -1,139 +1,237 @@
-syntax on			"Включает подсветку синтаксиса
-set number
-set tabstop=4
-set shiftwidth=4
-set noswapfile
-set noshowmode
-
-filetype plugin indent on 	 "Включает определение типа файла, загрузку...
-set encoding=utf-8			 "Ставит кодировку UTF-8
-set nocompatible			"Отключает обратную совместимость с Vi
+"////////////////		  Vim		////////////////
 
 
-				"Отключаем панели прокрутки в GUI
-set guioptions-=m  "menu bar
-set guioptions-=T  "toolbar
-set guioptions-=r  "
-set mouse=a
-set showtabline=0 "Отключаем панель табов (окошки FTW)
+syntax on			"Turns on syntax highlighting
+set number			"Line Numbers
+set noswapfile		"Disabling swap files creation in vim
+set noshowmode		"Insert status in vim
+
+	"Rules regarding the same indents
+set tabstop=4		"For tab characters that appear 4-spaces:
+set shiftwidth=4	
+set softtabstop=4
+set noexpandtab
+
+
+filetype plugin indent on 	"Includes file type detection
+set encoding=utf-8			"Sets the encoding UTF-8
+set nocompatible			"Disables (Vi) compatibility
+
+
+
+"////////////////	Disable scrollbars в GUI
+						
+set guioptions-=m 	"Menu bar
+set guioptions-=T 	"Toolbar
+set guioptions-=r 	"Toolbar
+set mouse=a			"Mouse enabled
+set showtabline=0 	"Disable panel tab (FTW)
 
 set langmenu=en_US.UTF-8    " sets the language of the menu (gvim)
-language en                 " sets the language of the messages / ui (vim)
 
 
-" Disable annoying beeping
+"	Disable annoying beeping
 autocmd GUIEnter * set vb t_vb=
 
 
-"Компиляция по F5:
-nmap <F5> :make<CR>
-imap <F5> <ESC>:make<CR>
+set ttimeoutlen=10 	"Disable timeout on esc key
+let &t_SI.="\e[5 q" "SI = Insert mode
+let &t_SR.="\e[3 q" "SR = Replacement mode
+let &t_EI.="\e[1 q" "EI = Normal mode
 
 
- " moving aroung in command mode
+"////////////////		Keymap		////////////////
+
+"	Moving aroung in command mode
 inoremap <M-h> <left>
 inoremap <M-j> <down>
 inoremap <M-k> <up>
 inoremap <M-l> <right>
 
-
+"	Fast moving aroung in command mode
 noremap <C-h> 5h
 noremap <C-j> 5j
 noremap <C-k> 5k
 noremap <C-l> 5l
 
 
-
-" Paste system clipboard with Ctrl + v
+"	Paste system clipboard with Ctrl + v
 inoremap <C-v> <ESC>"+gPi    
-"nnoremap <C-v> "+gP<ESC>
+nnoremap <C-v> "+gP<ESC>
 vnoremap <C-v> d"+gP<ESC>
 cnoremap <C-v> <C-r>+
 
-" Cut to system clipboard with Ctrl + x
+
+"	Cut to system clipboard with Ctrl + x
 vnoremap <C-x> "+d
 "nnoremap <C-x> "+dd
 inoremap <C-x> <ESC>"+ddi
 
-" Copy to system clipboard with Ctr + c
+
+"	Copy to system clipboard with Ctr + c
 vnoremap <C-c> "+y
 nnoremap <C-c> "+yy
 inoremap <C-c> <ESC>"+yyi
 
 
-set ttimeoutlen=10 "Понижаем задержку ввода escape последовательностей
-let &t_SI.="\e[5 q" "SI = режим вставки
-let &t_SR.="\e[3 q" "SR = режим замены
-let &t_EI.="\e[1 q" "EI = нормальный режим
+"	Copy all system clipboard with Ctr + a
+map <C-a> ggVG
 
 
+"	Search for a tag in the current file (Ctrl + p)
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 
-set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
-
-
-"Язык ввода при старте Вима - Английский
-set iminsert=0
-"Аналогично настраивается режим поиска
-set imsearch=0
-
-
-
-
-""		Plugin 
-
-call plug#begin()
-
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
-Plug 'vim-syntastic/syntastic'
-
-Plug 'junegunn/vim-plug'
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-
-"colorschemes
-Plug 'sickill/vim-monokai'
-Plug 'morhetz/gruvbox'
-Plug 'joshdick/onedark.vim'
-Plug 'rakr/vim-one'
-
-Plug 'flazz/vim-colorschemes'             " Colorschemes
-
-Plug 'powerline/fonts'
-
-call plug#end()
-
+"	NERDTree
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"////////////////		Misc		////////////////
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"	my lines within 80 characters
+set colorcolumn=60
+highlight ColorColumn ctermbg=gray
 
+
+
+
+
+"	When you are typing text in Insert mode the characters are inserted directly. 
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+
+
+
+
+"////////////////		Plugin		////////////////
+
+call plug#begin()
+
+
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+Plug 'sickill/vim-monokai'
+
+Plug 'morhetz/gruvbox'
+
+Plug 'joshdick/onedark.vim'
+
+Plug 'rakr/vim-one'
+
+Plug 'flazz/vim-colorschemes'
+
+Plug 'vim-airline/vim-airline'
+
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'bling/vim-bufferline'
+
+Plug 'vim-ctrlspace/vim-ctrlspace'
+
+Plug 'lambdalisue/battery.vim'
+
+
+call plug#end()
+
+"////////////////////////////////////////////
+
+
+"GUI font and language
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 12
+	language en_GB.UTF-8                 " sets the language of the messages / ui (vim)
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h14
+  elseif has("gui_win32")
+    set guifont=Consolas:h11:cANSI
+	language en                 " sets the language of the messages / ui (vim)
+
+  endif
+endif
+
+
+"Theme
 colorscheme onedark
 set background=dark
 
 
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+"Cursor Settings
+highlight Cursor  guibg=#98C379
+highlight iCursor  guibg=#61AFEF
+highlight vCursor  guibg=#C678DD
+set guicursor=n-v-c:block-Cursor
+set guicursor+=n-v-c:blinkon0
+set guicursor+=i:ver15i-iCursor
+set guicursor+=v:ver100-vCursor
 
 
-let g:airline#extensions#tabline#formatter = 'tmuxline'
 
 " air-line
 let g:airline_powerline_fonts = 1
+set t_Co=256
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
 
 
+" Note: You must define the dictionary first before setting values.
+" Also, it's a good idea to check whether it exists as to avoid 
+" accidentally overwriting its contents.
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" unicode symbols
+if exists('g:airline_powerline_fonts')
+let g:airline_symbols.colnr = '  ' 
+
+
+" powerline symbols
+let g:airline_left_sep = '█▓▒░'
+let g:airline_left_alt_sep = ' ▬ '
+
+let g:airline_right_sep = '░▒▓█'
+let g:airline_right_alt_sep = ' ▬ '
+
+let g:airline_symbols.branch = ' ⮑ '
+let g:airline_symbols.readonly = ' ⮔  '
+let g:airline_symbols.linenr = ' ☰ '
+let g:airline_symbols.dirty=' ⮕'
+
+
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
+
+
+"	Basic Settings CtrlSpace
+set nocompatible
+set hidden
+set encoding=utf-8
+set showtabline=0
+
+hi link CtrlSpaceNormal   PMenu
+hi link CtrlSpaceSelected PMenuSel
+hi link CtrlSpaceSearch   Search
+hi link CtrlSpaceStatus   StatusLine
